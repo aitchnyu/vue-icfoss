@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style>
+      [v-cloak] {
+          display: none;
+      }
+    </style>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@next/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <b-container>
+        <h2>The Estimator Of The Cost of Multiple Items</h2>
+        
+        <b-card title="Item Rates" sub-title="Rates of Different Items">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>item</th>
+                <th>rate</th>
+                <th>quantity</th>
+                <th>subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item of items" :key="item.id">
+                <td style="width:70%">
+                  <b-form-input type="text" v-model="item.name"></b-form-input>
+                </td>
+                <td style="width:10%">
+                  <b-form-input type="text" v-model.number="item.rate"></b-form-input>
+                </td>
+                <td style="width:10%">
+                  <b-form-input type="text" v-model.number="item.quantity"></b-form-input>
+                </td>
+                <td style="width:10%">
+                  {{item.quantity * item.rate}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <b-btn v-on:click="addNewItem()">add new item</b-btn>
+      
+          <p>total: {{ total }} </p>
+          <p>costliest: {{ costliest.name }} @ {{ costliest.subTotal}}</p>
+        </b-card>
+      </b-container>
+    </div>
+    <script>
+    var id = 1
+    
+    function getId() {
+      id++
+      return id
+    }
+    
+    new Vue({
+      el: '#app',
+      data: {
+        'items': [
+          {id: getId(), name: 'mango bite', rate: 1, quantity: 12},
+          {id: getId(), name: 'tea', rate: 80, quantity: 2},
+        ]
+      },
+      methods: {
+        addNewItem() {
+          this.items.push({id: getId(), name: '', rate: 0, quantity: 0})
+        }
+      },
+      computed: {
+        total() {
+          var a = 0
+          for(i of this.items) {
+            a += i.quantity * i.rate
+          }
+          return a
+        },
+        costliest() {
+          var sorted = this.items.slice().sort(
+            function(a, b){
+              return b.quantity * b.rate - a.quantity * a.rate
+            }
+          )
+          var highest = sorted[0]
+          return {name: highest.name, subTotal: highest.quantity * highest.rate}
+        }
+      }
+    })
+    </script>
+  </body>
+</html>

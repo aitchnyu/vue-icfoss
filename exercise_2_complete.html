@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      [v-cloak] {
+          display: none;
+      }
+    </style>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+    function randomName(callback){
+      fetch('https://randomuser.me/api/').then( function(response){
+        return response.json()
+      }).then( function(json) {
+        callback(json.results[0].name.first + ' ' + json.results[0].name.last)
+      })
+    }
+    </script>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <p>name: {{ name }}</p>
+      <p>
+        <input v-model="name"/>
+      </p>
+      <p>
+        <button v-on:click="reverse()">reverse</button>
+        <button v-on:click="fetchName()">fetch a name</button>
+      </p>
+    </div>
+    <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: ''
+      },
+      methods: {
+        reverse() {
+          this.name = this.name.split("").reverse().join("")
+        },
+        fetchName() {
+          var that = this
+          randomName(function(name){
+            that.name = name
+          })
+        }
+      }
+      
+    })
+    </script>
+  </body>
+</html>
