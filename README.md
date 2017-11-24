@@ -3,22 +3,17 @@ A workshop I'm taking at ICFOSS, Cusat.
 
 ## Exercise 1
 How to introduce in a page
-
 Reactivity
-
 Dev tools
 
 
 Install Vue Devtools in Firefox or Chrome
-
 Open Vue devtools for exercise_1_complete.html
-
 Click root component
 
 `$vm0.message = 'Hello icfoss!'`
 
 Minified and dev version - size and speed, download
-
 What happens without v-cloak?
 
 ### Resources
